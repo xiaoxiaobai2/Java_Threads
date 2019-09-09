@@ -15,7 +15,7 @@ public class Movie {
     public synchronized void watch(){
         if (flag){
             try {
-                wait();
+                this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -28,7 +28,7 @@ public class Movie {
         }
         System.out.println(pic);
         //唤醒其他线程
-        notify();//通知一个线程重新判断条件，不知道通知哪一个
+        this.notify();//通知一个线程重新判断条件，不知道通知哪一个
         //已消费置位真
         flag=true;
     }
@@ -37,7 +37,7 @@ public class Movie {
         if(!flag){
             //假，生产者等待
             try {
-                wait();
+                this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -49,8 +49,9 @@ public class Movie {
             e.printStackTrace();
         }
         this.pic=pic;
+        System.out.println("生产了："+pic);
         //唤醒其他线程
-        notifyAll();//唤醒其他所有线程重新检查条件
+        this.notifyAll();//唤醒其他所有线程重新检查条件
         //已生产，置为假
         flag=false;
     }
